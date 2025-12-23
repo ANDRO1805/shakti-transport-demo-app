@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { Driver } from "../types";
 
-/* ================= TYPES ================= */
-
 type DriverForm = Omit<Driver, "id">;
 
 interface DriverManagerProps {
@@ -13,16 +11,12 @@ interface DriverManagerProps {
   onDeleteDriver: (id: number) => void;
 }
 
-/* ================= COMPONENT ================= */
-
 export const DriverManager: React.FC<DriverManagerProps> = ({
   drivers,
   onAddDriver,
   onUpdateDriver,
   onDeleteDriver,
 }) => {
-  const [editingDriver, setEditingDriver] = useState<Driver | null>(null);
-
   const emptyForm: DriverForm = {
     name: "",
     phone: "",
@@ -41,9 +35,8 @@ export const DriverManager: React.FC<DriverManagerProps> = ({
     attendance: {},
   };
 
+  const [editingDriver, setEditingDriver] = useState<Driver | null>(null);
   const [form, setForm] = useState<DriverForm>(emptyForm);
-
-  /* ================= HANDLERS ================= */
 
   const openAdd = () => {
     setEditingDriver(null);
@@ -51,7 +44,7 @@ export const DriverManager: React.FC<DriverManagerProps> = ({
   };
 
   const openEdit = (driver: Driver) => {
-    const { id, ...rest } = driver; // 🔥 strip id here
+    const { id, ...rest } = driver; // strip id safely
     setEditingDriver(driver);
     setForm(rest);
   };
@@ -59,23 +52,21 @@ export const DriverManager: React.FC<DriverManagerProps> = ({
   const saveDriver = () => {
     if (editingDriver) {
       onUpdateDriver({
-        id: editingDriver.id, // ✅ id added ONCE
+        id: editingDriver.id,
         ...form,
       });
     } else {
       onAddDriver({
-        id: Date.now(), // ✅ id added ONCE
+        id: Date.now(),
         ...form,
       });
     }
     openAdd();
   };
 
-  /* ================= UI ================= */
-
   return (
     <div className="space-y-6">
-      {/* HEADER */}
+      {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold text-white">Drivers</h2>
         <button
@@ -87,7 +78,7 @@ export const DriverManager: React.FC<DriverManagerProps> = ({
         </button>
       </div>
 
-      {/* DRIVER LIST */}
+      {/* Driver List */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {drivers.map((driver) => (
           <div
@@ -109,7 +100,7 @@ export const DriverManager: React.FC<DriverManagerProps> = ({
         ))}
       </div>
 
-      {/* FORM */}
+      {/* Form */}
       <div className="p-4 bg-slate-900 rounded border border-slate-800 space-y-3">
         <h3 className="text-white font-bold text-sm">
           {editingDriver ? "Edit Driver" : "Add Driver"}
