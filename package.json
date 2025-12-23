@@ -4,7 +4,7 @@
   "private": true,
   "description": "Industrial Logistics and Freight Management System",
   "dependencies": {
-    "@google/genai": "^0.6.0",
+    "@google/generative-ai": "^0.24.1",
     "@vitejs/plugin-react": "^5.1.2",
     "lucide-react": "^0.454.0",
     "react": "^19.0.0",
